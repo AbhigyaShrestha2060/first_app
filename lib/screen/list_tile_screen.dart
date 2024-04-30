@@ -18,6 +18,12 @@ class ListTileScreen extends StatelessWidget {
               if (i % 2 != 0) ...{
                 ListTileWidget(
                   index: i,
+                  imageName: ("assets/images/image1.jpg"),
+                ),
+              } else ...{
+                ListTileWidget(
+                  index: i,
+                  imageName: ("assets/images/image2.jpg"),
                 ),
               }
             }

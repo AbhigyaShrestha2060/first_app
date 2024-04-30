@@ -1,32 +1,32 @@
 import 'package:first_app/model/arthemetic_model.dart';
 import 'package:flutter/material.dart';
-
-class ArthemeticScreen extends StatefulWidget {
-  const ArthemeticScreen({super.key});
-
+ 
+class ArthmeticScreen extends StatefulWidget {
+  const ArthmeticScreen({super.key});
+ 
   @override
-  State<ArthemeticScreen> createState() => _ArthemeticScreenState();
+  State<ArthmeticScreen> createState() => _ArthmeticScreenState();
 }
-
-class _ArthemeticScreenState extends State<ArthemeticScreen> {
+ 
+class _ArthmeticScreenState extends State<ArthmeticScreen> {
   int? first;
   int? second;
   int result = 0;
-
+  String group = 'My group';
+ 
   //Relationship
-  //Loosely Coupled
-
-  ArthemeticModel? arthemeticModel;
-
-  //Create globalkey for form
-  final formKey = GlobalKey<FormState>();
-
+  // Loosely coupled
+  ArthmeticModel? arthmeticModel;
+ 
+  // Create global key for form
+  final formkey = GlobalKey<FormState>();
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Add Two Number',
+          'Calculator',
           style: TextStyle(
             fontSize: 30,
           ),
@@ -37,7 +37,7 @@ class _ArthemeticScreenState extends State<ArthemeticScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Form(
-          key: formKey,
+          key: formkey,
           child: Column(
             children: [
               // Enter first no
@@ -48,7 +48,7 @@ class _ArthemeticScreenState extends State<ArthemeticScreen> {
                 },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Enter First  Number',
+                  hintText: 'Enter first no',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -62,13 +62,13 @@ class _ArthemeticScreenState extends State<ArthemeticScreen> {
                 height: 8,
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 onChanged: (value) {
                   second = int.parse(value);
                 },
-                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Enter Second Number',
+                  labelText: 'Enter Second no',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -81,27 +81,93 @@ class _ArthemeticScreenState extends State<ArthemeticScreen> {
               const SizedBox(
                 height: 8,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
+ 
+              ListTile(
+                title: const Text('Add'),
+                leading: Radio(
+                  value: 'add',
+                  groupValue: group,
+                  onChanged: (String? value) {
                     setState(
                       () {
-                        arthemeticModel = ArthemeticModel(
+                        group = value!;
+                      },
+                    );
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Subtract'),
+                leading: Radio(
+                  value: 'subtract',
+                  groupValue: group,
+                  onChanged: (String? value) {
+                    setState(
+                      () {
+                        group = value!;
+                      },
+                    );
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Multiply'),
+                leading: Radio(
+                  value: 'multiply',
+                  groupValue: group,
+                  onChanged: (String? value) {
+                    setState(
+                      () {
+                        group = value!;
+                      },
+                    );
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Divide'),
+                leading: Radio(
+                  value: 'divide',
+                  groupValue: group,
+                  onChanged: (String? value) {
+                    setState(
+                      () {
+                        group = value!;
+                      },
+                    );
+                  },
+                ),
+              ),
+ 
+              ElevatedButton(
+                onPressed: () {
+                  if (formkey.currentState!.validate()) {
+                    setState(
+                      () {
+                        arthmeticModel = ArthmeticModel(
                           first: first!,
                           second: second!,
                         );
-                        result = arthemeticModel!.add();
+                        if (group == 'add') {
+                          result = arthmeticModel!.add();
+                        } else if (group == 'subtract') {
+                          result = arthmeticModel!.subtract();
+                        } else if (group == 'multiply') {
+                          result = arthmeticModel!.multiply();
+                        } else if (group == 'divide') {
+                          result = arthmeticModel!.divide();
+                        }
                       },
                     );
                   }
                 },
-                child: const Text('Add'),
+                child: const Text('Calculate'),
               ),
               const SizedBox(
                 height: 8,
               ),
               Text(
-                'Sum is : $result',
+                'Result is : $result',
                 style: const TextStyle(
                   fontSize: 30,
                 ),
@@ -113,3 +179,4 @@ class _ArthemeticScreenState extends State<ArthemeticScreen> {
     );
   }
 }
+ 
